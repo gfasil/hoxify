@@ -2,6 +2,7 @@ package com.fayaman.hoxify;
 
 import com.fayaman.hoxify.Model.User;
 import com.fayaman.hoxify.repo.UserRepository;
+import com.fayaman.hoxify.util.GenericResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,15 @@ public class UserControllerTest {
         testRestTemplate.postForEntity(API_1_0_USERS,user,Object.class);
 
        assertThat(userRepository.count()).isEqualTo(1);
+
+    }
+
+    @Test
+    public void postUser_whenUserIsValid_receiveSuccessMessage(){
+        User user = createValidUser();
+
+        ResponseEntity<GenericResponse> result= testRestTemplate.postForEntity(API_1_0_USERS,user,GenericResponse.class);
+        assertThat(result.getBody().getMessage()).isNotNull();
 
     }
 
