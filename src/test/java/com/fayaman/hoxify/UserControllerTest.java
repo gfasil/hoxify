@@ -28,7 +28,6 @@ public class UserControllerTest {
     @Test
     public void postUser_whenUserIsValid_receiveOk(){
         User user = createValidUser();
-
         ResponseEntity<Object> result= testRestTemplate.postForEntity(API_1_0_USERS,user,Object.class);
              assertThat(result.getStatusCode())
              .isEqualTo(HttpStatus.OK);
