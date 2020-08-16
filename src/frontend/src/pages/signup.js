@@ -1,12 +1,15 @@
 import React,{Component} from 'react';
    
 export default class signup extends Component{
+ 
+        render(){
 
-    render(){
-
-        return <div>
-        hello moto
-            <h1>Sign Up</h1>
-        </div>
-    }
+            return (
+                <div>
+                    <h1>sign up</h1>
+                </div>)
+        }
+    
+   
 }
+ 

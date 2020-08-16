@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import signup from './pages/signup';
+import Signup from './pages/signup';
 
 ReactDOM.render(
   <React.StrictMode>
-    <signup />
+    
+   <Signup/>
     
   </React.StrictMode>,
   document.getElementById('root')
