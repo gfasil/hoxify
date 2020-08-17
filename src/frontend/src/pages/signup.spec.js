@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {render, cleanup,fireEvent} from '@testing-library/react';
+import {render, cleanup,fireEvent, queryByText} from '@testing-library/react';
  import '@testing-library/jest-dom/extend-expect';
 import Signup from './signup'
 import { findAllInRenderedTree } from 'react-dom/test-utils';
@@ -176,6 +176,21 @@ describe('SignUp',()=>{
             fireEvent.click(button);
             fireEvent.click(button);
             expect(actions.postSignUp).toHaveBeenCalledTimes(1);
+            
+
+        })
+
+        it('displays spinner when there is an ongoing api call',()=>{
+            
+            const actions={
+                postSignUp:mockAsyncDelayed() // revoled promise is mocked which sends empty json
+            }
+            
+            
+            const {queryByText}=setupforSubmit({actions})
+            fireEvent.click(button);
+            const spinner=queryByText('Loading...')
+            expect(spinner).toBeInTheDocument();
             
 
         })
