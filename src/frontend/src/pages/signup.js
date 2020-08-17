@@ -25,7 +25,13 @@ import React,{Component} from 'react';
             password:this.state.password
         }
         this.setState({pendingrequest:true})
-               this.props.actions.postSignUp(user); 
+        this.props.actions.postSignUp(user).
+        then((response)=>{
+
+                this.setState({pendingrequest:false})
+               })
+        .catch(error=>
+            this.setState({pendingrequest:false}))
         
            
             

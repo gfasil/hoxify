@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import {render, cleanup,fireEvent, queryByText} from '@testing-library/react';
+import {render, cleanup,fireEvent, queryByText,waitForDomChange} from '@testing-library/react';
  import '@testing-library/jest-dom/extend-expect';
 import Signup from './signup'
-import { findAllInRenderedTree } from 'react-dom/test-utils';
+ 
 
 beforeEach(cleanup);
 describe('SignUp',()=>{
@@ -195,6 +195,49 @@ describe('SignUp',()=>{
 
         })
 
+        it('hides spinner when there is a success for api call',async()=>{
+            
+            const actions={
+                postSignUp:mockAsyncDelayed() // revoled promise is mocked which sends empty json
+            }
+            
+            
+            const {queryByText}=setupforSubmit({actions})
+            fireEvent.click(button);
+            await waitForDomChange();
+            const spinner=queryByText('Loading...')
+            expect(spinner).not.toBeInTheDocument();
+            
+
+        })
+
+        it('hides spinner when there is an error for api call',async()=>{
+            
+            const actions={
+                postSignUp: 
+                     jest.fn().mockImplementation(()=>{
+        
+                        return new Promise((resolve,reject)=>{
+                            setTimeout(()=>{
+                             reject({
+                                 response:{data:{}}
+                             })   
+                            },300)
+                        })
+                    })
+                } // revoled promise is mocked which sends empty json
+            
+            
+            
+            const {queryByText}=setupforSubmit({actions})
+            fireEvent.click(button);
+            await waitForDomChange();
+            const spinner=queryByText('Loading...')
+            expect(spinner).not.toBeInTheDocument();
+            
+
+        })
+
 
         it('calls postsignup and does not throw exception when the fields are valid and the actions are not provided in props',()=>{
             
@@ -210,3 +253,4 @@ describe('SignUp',()=>{
 
     })
 })
+console.error=()=>{}
