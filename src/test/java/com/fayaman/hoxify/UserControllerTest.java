@@ -36,7 +36,7 @@ public class UserControllerTest {
 
     private User createValidUser() {
         User user=new User();
-        user.setName("test_user");
+        user.setUserName("test_user");
         user.setDisplayName("test-display");
         user.setPassword("pass4word");
         return user;
