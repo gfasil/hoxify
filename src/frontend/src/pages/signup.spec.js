@@ -139,7 +139,23 @@ describe('SignUp',()=>{
             
 
         })
+        
+        it('calls postsignup with user body when fields are valid',()=>{
+            
+            const actions={
+                postSignUp:jest.fn().mockResolvedValueOnce({}) // revoled promise is mocked which sends empty json
+            }
+            setupforSubmit({actions})
+            const expecteduserinput={
+                displayName:'my-display-name',
+                userName:'my-user-name',
+                password:'my-password'
+            }
+            fireEvent.click(button);
+            expect(actions.postSignUp).toHaveBeenCalledWith(expecteduserinput);
+            
 
+        })
 
         it('calls postsignup and does not throw exception when the fields are valid and the actions are not provided in props',()=>{
             

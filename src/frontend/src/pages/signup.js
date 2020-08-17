@@ -17,8 +17,13 @@ import React,{Component} from 'react';
           this.setState({[event.target.name]:event.target.value})
       }   
       onClickSignUp=()=>{
-          
-               this.props.actions.postSignUp(); 
+
+        const user={
+            displayName:this.state.displayName,
+            userName:this.state.userName,
+            password:this.state.password
+        }
+               this.props.actions.postSignUp(user); 
         
            
             
