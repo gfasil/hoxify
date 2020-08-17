@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {render, cleanup} from '@testing-library/react';
+import {render, cleanup,fireEvent} from '@testing-library/react';
  import '@testing-library/jest-dom/extend-expect';
 import Signup from './signup'
 
@@ -58,5 +58,48 @@ describe('SignUp',()=>{
              
        
         })
+    })
+
+    describe('Interactions',()=>{
+
+        const changeEvent=(content)=>{
+
+           return { target:{
+                value:content
+            }}
+        }
+        it('sets the display name value to state',()=>{
+            const {queryByPlaceholderText}=render(<Signup/>)
+            const displayNameInput=queryByPlaceholderText('your display name')
+            
+           
+            fireEvent.change(displayNameInput,changeEvent('my-display-name'));
+            
+            expect(displayNameInput).toHaveValue('my-display-name');
+
+        })
+
+        it('sets the user name value to state',()=>{
+            const {queryByPlaceholderText}=render(<Signup/>)
+            const userInput=queryByPlaceholderText('your user name')
+            
+           
+            fireEvent.change(userInput,changeEvent('my-user-name'));
+            
+            expect(userInput).toHaveValue('my-user-name');
+
+        })
+        it('sets the password name value to state',()=>{
+            const {queryByPlaceholderText}=render(<Signup/>)
+            const passwordInput=queryByPlaceholderText('your password')
+            
+           
+            fireEvent.change(passwordInput,changeEvent('my-password'));
+            
+            expect(passwordInput).toHaveValue('my-password');
+
+        })
+
+
     })
 })
