@@ -1,17 +1,28 @@
 import React,{Component} from 'react';
-   
- export default class signup extends Component{
+
+ export  default class signup extends Component{
+        
+
+
 
 
         state={
             displayName:'',
             userName:'',
-            password:''
+            password:'',
+            repeatPassword:''
         }
 
         handleChange=(event)=> {
           this.setState({[event.target.name]:event.target.value})
       }   
+      onClickSignUp=()=>{
+          
+               this.props.actions.postSignUp(); 
+        
+           
+            
+      };
 
       
     
@@ -37,18 +48,32 @@ import React,{Component} from 'react';
                     <div>
                     <input placeholder="your password" type="password"
                      value={this.state.password}
-                        onChange={this.handleChange}
-                        name='password'
+                     onChange={this.handleChange}
+                     name='password'
 
                     />
                     </div>
                     <div>
-                    <input placeholder="repeat your password" type="password"/>
+                    <input placeholder="repeat your password" type="password"
+                        value={this.state.repeatPassword}
+                     onChange={this.handleChange}
+                     name='repeatPassword'
+
+                    />
                     </div>
-                   <button>submit</button>
+                   <button onClick={this.onClickSignUp}>submit</button>
                 </div>)
         }
     
    
+}
+signup.defaultProps={
+
+    actions:{
+        postSignUp:()=>new Promise((resolve,reject)=>{
+
+            resolve({});
+        })
+    }
 }
  

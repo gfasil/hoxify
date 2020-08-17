@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {render, cleanup,fireEvent} from '@testing-library/react';
  import '@testing-library/jest-dom/extend-expect';
 import Signup from './signup'
+import { findAllInRenderedTree } from 'react-dom/test-utils';
 
 beforeEach(cleanup);
 describe('SignUp',()=>{
@@ -68,13 +69,32 @@ describe('SignUp',()=>{
                 value:content
             }}
         }
+
+        let button,displayNameInput,userInput,passwordInput,repeatPasswordInput;
+
+        const setupforSubmit=(props)=>{
+            
+            const rendered=render(<Signup  {...props}/>);
+            const {container,queryByPlaceholderText}=rendered;
+              
+                displayNameInput=queryByPlaceholderText('your display name')
+                userInput=queryByPlaceholderText('your user name')
+                passwordInput=queryByPlaceholderText('your password')
+                repeatPasswordInput=queryByPlaceholderText('repeat your password')
+                button=container.querySelector('button');
+              
+                fireEvent.change(displayNameInput,changeEvent('my-display-name'));
+                fireEvent.change(userInput,changeEvent('my-user-name'));
+                fireEvent.change(passwordInput,changeEvent('my-password'));
+                fireEvent.change(repeatPasswordInput,changeEvent('my-repeated-password'));
+                return rendered;
+            
+        }
         it('sets the display name value to state',()=>{
             const {queryByPlaceholderText}=render(<Signup/>)
             const displayNameInput=queryByPlaceholderText('your display name')
             
-           
             fireEvent.change(displayNameInput,changeEvent('my-display-name'));
-            
             expect(displayNameInput).toHaveValue('my-display-name');
 
         })
@@ -85,7 +105,6 @@ describe('SignUp',()=>{
             
            
             fireEvent.change(userInput,changeEvent('my-user-name'));
-            
             expect(userInput).toHaveValue('my-user-name');
 
         })
@@ -95,8 +114,41 @@ describe('SignUp',()=>{
             
            
             fireEvent.change(passwordInput,changeEvent('my-password'));
-            
             expect(passwordInput).toHaveValue('my-password');
+
+        })
+        
+        it('sets the rpeated password  value to state',()=>{
+            const {queryByPlaceholderText}=render(<Signup/>)
+            const passwordInput=queryByPlaceholderText('repeat your password')
+            
+           fireEvent.change(passwordInput,changeEvent('my-repeated-password'));
+           expect(passwordInput).toHaveValue('my-repeated-password');
+
+        })
+
+        it('calls postsignup when the fields are valid and the actions are provided in props',()=>{
+            
+            const actions={
+                postSignUp:jest.fn().mockResolvedValueOnce({}) // revoled promise is mocked which sends empty json
+            }
+            setupforSubmit({actions})
+            
+            fireEvent.click(button);
+            expect(actions.postSignUp).toHaveBeenCalledTimes(1);
+            
+
+        })
+
+
+        it('calls postsignup and does not throw exception when the fields are valid and the actions are not provided in props',()=>{
+            
+            
+            setupforSubmit();
+            expect(()=>{
+                fireEvent.click(button);
+            }).not.toThrow();
+            
 
         })
 
