@@ -10,7 +10,8 @@ import React,{Component} from 'react';
             displayName:'',
             userName:'',
             password:'',
-            repeatPassword:''
+            repeatPassword:'',
+            pendingrequest:false
         }
 
         handleChange=(event)=> {
@@ -23,6 +24,7 @@ import React,{Component} from 'react';
             userName:this.state.userName,
             password:this.state.password
         }
+        this.setState({pendingrequest:true})
                this.props.actions.postSignUp(user); 
         
            
@@ -71,7 +73,7 @@ import React,{Component} from 'react';
                     />
                     </div>
                     <div className="text-center">
-                    <button className="btn btn-primary" onClick={this.onClickSignUp}>submit</button>
+                    <button disabled={this.state.pendingrequest} className="btn btn-primary" onClick={this.onClickSignUp}>submit</button>
                     </div>
                   
                 </div>)

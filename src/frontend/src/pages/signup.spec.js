@@ -71,7 +71,16 @@ describe('SignUp',()=>{
         }
 
         let button,displayNameInput,userInput,passwordInput,repeatPasswordInput;
+        const mockAsyncDelayed=()=>{
+            return jest.fn().mockImplementation(()=>{
 
+                return new Promise((resolve,reject)=>{
+                    setTimeout(()=>{
+                     resolve({})   
+                    },300)
+                })
+            })
+        }
         const setupforSubmit=(props)=>{
             
             const rendered=render(<Signup  {...props}/>);
@@ -156,6 +165,21 @@ describe('SignUp',()=>{
             
 
         })
+
+        it('does not allow when there is an ongoing api call',()=>{
+            
+            const actions={
+                postSignUp:mockAsyncDelayed() // revoled promise is mocked which sends empty json
+            }
+            setupforSubmit({actions})
+            
+            fireEvent.click(button);
+            fireEvent.click(button);
+            expect(actions.postSignUp).toHaveBeenCalledTimes(1);
+            
+
+        })
+
 
         it('calls postsignup and does not throw exception when the fields are valid and the actions are not provided in props',()=>{
             
